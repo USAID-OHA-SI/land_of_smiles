@@ -110,7 +110,7 @@
     geom_blank() +
     annotate("rect", xmin = 4.5, xmax = 8.5, ymin = 0, ymax = .28,
              fill = "gray60", alpha = .2) +
-    geom_line(size = 1.1) +
+    geom_line(linewidth = 1.1) +
     geom_point(aes(y = start), size = 3, na.rm = TRUE) +
     geom_point(aes(y = end), shape = 21, fill = "white", stroke = 1.5,
                size = 3, na.rm = TRUE) +
@@ -124,7 +124,7 @@
           strip.text.x = element_blank(),
           strip.placement = "outside")
   
-  v_mod_hts/v_mod_pos/v_mod_yield +
+  v_mod_hts / v_mod_pos / v_mod_yield +
     plot_annotation(title = "IMPRESSIVE INDEX POSITIVITY ACROSS MINORIA CONTINUES DESPITE Q4 SETBACK",
                     caption = metadata$caption) &
     si_style_ygrid() &
