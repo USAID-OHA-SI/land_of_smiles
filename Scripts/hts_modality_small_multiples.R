@@ -85,7 +85,7 @@
     si_style_ygrid() +
     theme(strip.text.y = element_text(hjust = .5),
           axis.text.x = element_blank(),
-          strip.placement = "outside")
+          strip.placement = "inside")
   
   v_mod_pos <- df_mod %>% 
     filter(indicator == "HTS_TST_POS") %>% 
@@ -102,13 +102,13 @@
     theme(strip.text.y = element_text(hjust = .5),
           axis.text.x = element_blank(),
           strip.text.x = element_blank(),
-          strip.placement = "outside")
+          strip.placement = "inside")
 
   
   v_mod_yield <- df_mod_yield %>%
     ggplot(aes(period, value, group = mod_lump, color = fill_color)) +
     geom_blank() +
-    annotate("rect", xmin = 4.5, xmax = 8.5, ymin = 0, ymax = .28,
+    annotate("rect", xmin = 4.5, xmax = 8.5, ymin = 0, ymax = Inf,
              fill = "gray60", alpha = .2) +
     geom_line(linewidth = 1.1) +
     geom_point(aes(y = start), size = 3, na.rm = TRUE) +
@@ -116,21 +116,33 @@
                size = 3, na.rm = TRUE) +
     facet_grid(indicator ~ mod_lump, switch = "y") +
     scale_y_continuous(label = percent) +
-    scale_x_discrete(labels = ifelse(str_detect(unique(df_mod$period), 'Q1'), unique(df_mod$period), "")) +
+    scale_x_discrete(labels = ifelse(str_detect(unique(df_mod$period), 'Q1'), str_sub(unique(df_mod$period), 1, 4), "")) +
     scale_color_identity() +
     labs(x = NULL, y = NULL) +
     si_style_ygrid() +
     theme(strip.text.y = element_text(hjust = .5),
           strip.text.x = element_blank(),
-          strip.placement = "outside")
+          strip.placement = "inside")
   
   v_mod_hts / v_mod_pos / v_mod_yield +
     plot_annotation(title = "IMPRESSIVE INDEX POSITIVITY ACROSS MINORIA CONTINUES DESPITE Q4 SETBACK",
-                    caption = metadata$caption) &
-    si_style_ygrid() &
-    theme(strip.text.y = element_text(hjust = .5),
-          # strip.text.x = element_blank(),
-          strip.placement = "outside")
+                    subtitle = "Index testing remains a key strategic entry point as Minoria approaches the first 95",
+                    caption = metadata$caption,
+                    theme = si_style_ygrid())
   
+  si_save("Graphics/hts_mods.svg")
   si_save("Images/hts_mods.png")
   
+  
+  
+  df_mod %>% 
+    filter(indicator == "HTS_TST",
+           period == max(period)) %>% 
+    mutate(share = value/sum(value)) %>% 
+    filter(mod_lump == "Index")
+  
+  df_mod %>% 
+    filter(indicator == "HTS_TST_POS",
+           period == max(period)) %>% 
+    mutate(share = value/sum(value)) %>% 
+    filter(mod_lump == "Index")
