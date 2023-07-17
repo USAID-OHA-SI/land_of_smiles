@@ -197,6 +197,7 @@
 
 # DISTRIBUTION ------------------------------------------------------------
 
+  #collapse pos data to look by age/sex
   df_pyramid <- df %>%
     filter(
       indicator %in% c("HTS_TST_POS"),
@@ -209,7 +210,7 @@
     mutate(cumulative = ifelse(sex == "Female", -cumulative, cumulative),
            fill_color = ifelse(sex == "Female", moody_blue, genoa))
   
-  
+  #plot a pop pyramid to compare age/sex distrubtions of positives
   df_pyramid %>% 
     ggplot(aes(cumulative, ageasentered, group = "sex", fill = fill_color)) +
     geom_col() +
