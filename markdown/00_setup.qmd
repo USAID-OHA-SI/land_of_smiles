@@ -50,18 +50,50 @@ You can perform basic operations in R, like addition and multiplication. To run 
 3*3
 ```
 
-R is more powerful than a simple calculator as you can store values or results as objects when we use the assignment operator, `<-`
+R is more powerful than a simple calculator as you can store values or results as objects (or variables) when we use the assignment operator, `<-`.
 
 ```{r}
+#value of variable m is 3 x 3
 m <- 3*3
 
+#the city we want to reference
 city <- "Cedar Rapids"
 
+#a list of important partners
 partners <- c("Yard Goats", "Loons", "Isotopes")
 
 ```
 
 Its important to note that when ever we work with strings/character, we need to use quotation marks; otherwise, R will try to interpret the text that as an object.
+
+In the code above, we've also introduced comments, which are notes we write for ourselves and others. R knows something is a comment (and not to evaluate it) by looking for a `#`; everything after a `#` is not run. We have also introduced vectors in the last object. If we are combining multiple values or even objects together, we use `c()` and list them out, separating each different piece with a comma.
+
+On more importnat operator to introduce you to is "the pipe." The concept may be a bit tricky to start with, but it makes our life much easier. Base R introduce the pipe in version 4.0.0, "`|>`" and it has been around in the `tidyverse` for quite a while, "`%>%`", showing up first in the `magrittr` package.
+
+In the example below, we want to make combine all the partners together into a single value with a comma separating them. We can write this out in a nested code, much like we would see in Excel. 
+
+```{r}
+#nested statement without pipes
+paste0(toupper(partners), collapse = ", ")
+```
+
+Alternatively we could write this out so each statement gets added to a intermediate objects/steps.
+
+```{r}
+p2 <- toupper(partners) 
+
+paste0(p2, collapse = ", ")
+
+```
+
+The pipe simplifies our life. We can use the pipe to pass object from one evaluation to the next, making our code more legible and easier to follow. We can read the code below as `partners` are converted to upper case and then pasted together. 
+
+```{r}
+#code with pipes, everything is evaluated stepwise
+partners |> toupper() |> paste0(collapse = ", ")
+```
+
+All three of the options above give you the same results, but the piping simplies your code.
 
 In addition to values and strings being stores as objects, we can also store data (as data frames) in objects
 
