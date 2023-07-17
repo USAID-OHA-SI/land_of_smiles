@@ -235,8 +235,9 @@
       fill_color = ifelse(sex == "Female", moody_blue, genoa)
     )
 
-  # Use bars to create pyramid
-  df_pyramid %>%
+  
+  #plot a pop pyramid to compare age/sex distrubtions of positives
+  df_pyramid %>% 
     ggplot(aes(cumulative, ageasentered, group = "sex", fill = fill_color)) +
     geom_col(alpha = 0.85) +
     # Filter original data down to just men the focus category
