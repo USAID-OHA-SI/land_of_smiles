@@ -1,0 +1,99 @@
+---
+title: "00_setup"
+format: markdown_github
+editor: source
+---
+
+# USAID GDW (R Track) - Session 00: Setup
+
+## Learning objectives
+
+-   Become familiar with RStudio's user interface
+-   Setup snippets
+-   Understand basic operations
+-   Know how to install and load packages
+
+## Quick note
+
+For this and the remainder of our workshop sessions, we will be relying [Quarto docs](https://quarto.org) to facilitate the training. Quaro documents allow us to interact you to interact with the code you're writing while focusing on the documentation as well. Code is run within "chunks", which you can add through the shortcut CTRL + ALT + I (or through the GUI, Code \> Insert Chunk).
+
+## Setup
+
+For these sessions, we'll be using RStudio which is an IDE, "Integrated development environment" that makes it easier to work with R. For help on getting setup and installing packages, please reference [this guide](https://usaid-oha-si.github.io/corps/rbbs/2022/01/28/rbbs-0-setup.html) from the coRps R Building Blocks Series.
+
+## Exploring RStudio IDE
+
+RStudio may seem imposing at first, but in no time you'll know where everything is. Your RStudio will be broken down into 4 main components.
+
+![20220214_rstudio_ide](https://github.com/USAID-OHA-SI/land_of_smiles/assets/8933069/4e4eef15-028d-4701-b058-3e000e5f4293)
+
+-   **Source**: this box won't be here when you first open RStudio. If you go to File > New File > R Script, you will see this box. This is where you can write/save or open your R scripts.
+-   **Console**: below Source, you will have your console. This is where all your R code is excuted and where the outputs are displayed. If you want to run a line as a one off, you can write it here. There is an tab here called Terminal, which is where you can run code through the command line, git for example.
+-   **Environment**: moving to the upper right hand corner, you have your environment tab. This box contains all the datasets or objects you have stored in your current working session.
+-   **Catch All**: this last box has a lot of different features. You can see a number of tabs, which allow you to expore your directories/files, this is where your graphs will print, and where the help files are located.
+
+
+## Adding Snippets
+
+Before we get too much further, we want to make sure you add some key Snippets to save you time and headache down the road. RStudio code snippets are predefined code shortcuts that can be used to quickly insert commonly used code blocks. The use of snippets can improve coding efficiency, reduce the time spent copying and pasting code from other scripts, and improve the readability of your code by providing a standardized format for your analytical scripts.
+
+To create your own snippets in Rstudio, go to “Tools > Global Options > Code > Edit Snippets. This will open a file where you can define your custom snippets using a simple syntax. We recommend copying the snippets we've developed and adding them to your environment. You can copy our [SI snippets](https://gist.github.com/tessam30/fc775a2f917ea5d62de0f6724c4aeada) from here and paste them into the Snippet window. 
+
+
+## Open a new script
+
+We can start coding right in the Console, but the value of a coding language is being able to save and document workflows. Anything written in the Console will execute your code, but you can't easily save and share it. Instead, you want to open up a new R Script; in the IDE, go to File > New File > R Script or use the short cut CTRL + SHIFT + N. 
+
+You can perform basic operations in R, like addition and multiplication. To run code from the console, you will hit CTRL + ENTER. This will run the current line your cursor is on. To run multiple lines, you will highlight those lines and then hit CTRL + ENTER. You can also run the entire script by clicking the "Source" button on the top right corner, or run highlighted lines by clicking "Run."
+
+```{r}
+3*3
+```
+
+R is more powerful than a simple calculator as you can store values or results as objects when we use the assignment operator, `<-`
+
+```{r}
+m <- 3*3
+
+city <- "Cedar Rapids"
+
+partners <- c("Yard Goats", "Loons", "Isotopes")
+
+```
+
+Its important to note that when ever we work with strings/character, we need to use quotation marks; otherwise, R will try to interpret the text that as an object.
+
+In addition to values and strings being stores as objects, we can also store data (as data frames) in objects
+
+```{r}
+(df <- data.frame(x = c("A", "B", "C"),
+                 y = c(1, 2, 3)
+))
+
+(df$z <- df$y + m)
+
+```
+
+## Loading packages
+
+Proprietary programs like Excel, Tableau, or Stata, build in and maintain all of the functions into the software. With open-source packages, on the other hand, we need to load different libraries or packages that are written by other organization or individual users. This structure allows different users to provide specific "solutions" to a problem. For example, if you are creating maps, you might want to load up the `sf` package, whereas you may not need that if you are only working with basic data munging, e.g.`dplyr`, `tidyr`, `stringr`. 
+
+A package is a collection of functions. If we wanted to run a time series regression or do text analysis, we would need to install and load different packages created by other users. There are lots and lots of packages out there and we will keep largely to those that are in the ["tidyverse"](https://www.tidyverse.org/), a set of packages "share an underlying design philosophy, grammar, and data structures" maintained mostly by "super developers" at RStudio. The other set of packages we'll use and promote are those [we have build in OHA](https://usaid-oha-si.github.io/tools/) and solve issues we routinely face with workflow and data. It's important to note that every time you start up a new session, you will have to load the packages you need.
+
+We have just been working with some base functions with in R, but we typically need to use external packages. To install those packages from CRAN, we can run `install.packages()` with the package specified in quotes. Let's install `dplyr`. If you already have a package install, rerunning this will update the package. You only need to install a package once, but you will need to load the package every time you start a new R session.
+
+```{r}
+#install the dplyr package
+install.packages("dplyr")
+
+#load the package into the environment to use it
+library(dplyr) 
+
+```
+
+
+## Additional Resources
+
+-   [coRps R Building Blocks Series - Setup Part 0](https://usaid-oha-si.github.io/corps/rbbs/2022/01/28/rbbs-0-setup.html)
+-   [coRps R Building Blocks Series - Visualization Part 1](https://usaid-oha-si.github.io/corps/rbbs/2022/02/14/rbbs-2-visualization-part1.html)
+-   [R for Data Science (Wickham + Grolemund) - Chapter 4 - Workflow: basics](https://r4ds.had.co.nz/workflow-basics.html)
