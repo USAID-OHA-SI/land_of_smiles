@@ -16,7 +16,8 @@
   library(tidytext)
   library(patchwork)
   library(ggtext)
-
+  library(kableExtra)
+  library(knitr)
 
 # GLOBAL VARIABLES --------------------------------------------------------
 
@@ -31,6 +32,17 @@
   # https://stackoverflow.com/questions/52919899/display-every-nth-value-on-discrete-axis
   every_nth = function(n) {
     return(function(x) {x[c(TRUE, rep(FALSE, n - 1))]})
+  }
+  
+# Function to save data view as a png
+  make_data_jpg <- function(df, viz_name = ""){
+    df %>% 
+    kable() %>% 
+      kable_styling(bootstrap_options = "condensed", 
+                    font_size = 12, 
+                    full_width = F) %>% 
+      save_kable(file = glue("Images/data_{viz_name}.png"),
+                 zoom = 4)
   }
   
   
@@ -66,6 +78,9 @@
     si_style_xgrid() 
   
   si_save("Images/magnitude.png", scale = 1.3, height = 4, width = 4)
+  
+  make_data_jpg(df_bar, "magnitude")
+  
 
 # Time-series ============================================================================
 
@@ -77,7 +92,7 @@
     ) %>%
     summarize(across(c(contains("qtr")), \(x) sum(x, na.rm = T)), 
               .by = "fiscal_year") %>%
-    reshape_msd()
+    reshape_msd() 
 
   # Create time-series graph shaded below
   df_time %>%
@@ -91,6 +106,8 @@
 
   si_save("Images/change_over_time.png", scale = 1.3, height = 4, width = 4)
 
+  make_data_jpg(df_time, "time_series")
+  
 # Ranking  ----------------------------------------------------------------
 
   # Collapse data to sub-nation level to show testing trends
@@ -125,6 +142,8 @@
  
  si_save("Images/ranking.png", scale = 1.3, height = 4, width = 4)
 
+ make_data_jpg(df_time_snu1, "ranking")
+ 
 # PARTS-TO-WHOLE ----------------------------------------------------------
   
   # How much does index testing contribute to overall positives?
@@ -166,6 +185,8 @@
          caption = glue("{data_source}"))
   
   si_save("Images/waffle.png", scale = 1.3, height = 4, width = 4)
+  
+  make_data_jpg(df_index, "waffle")
 
 # Stacked Bar graph showing proportions (plot top 5)
   df_index %>%
@@ -197,6 +218,7 @@
 
 # DISTRIBUTION ------------------------------------------------------------
 
+  # Create a population pyramid of test positive to show missing populations
   df_pyramid <- df %>%
     filter(
       indicator %in% c("HTS_TST_POS"),
@@ -204,32 +226,41 @@
       fiscal_year == 2060,
       ageasentered != "Unknown Age"
     ) %>%
-    summarise(cumulative = sum(cumulative, na.rm = T), 
-              .by = c(indicator, sex, ageasentered)) %>% 
-    mutate(cumulative = ifelse(sex == "Female", -cumulative, cumulative),
-           fill_color = ifelse(sex == "Female", moody_blue, genoa))
-  
-  
-  df_pyramid %>% 
+    summarise(
+      cumulative = sum(cumulative, na.rm = T),
+      .by = c(indicator, sex, ageasentered)
+    ) %>%
+    mutate(
+      cumulative = ifelse(sex == "Female", -cumulative, cumulative),
+      fill_color = ifelse(sex == "Female", moody_blue, genoa)
+    )
+
+  # Use bars to create pyramid
+  df_pyramid %>%
     ggplot(aes(cumulative, ageasentered, group = "sex", fill = fill_color)) +
-    geom_col() +
+    geom_col(alpha = 0.85) +
+    # Filter original data down to just men the focus category
+    geom_col(
+      data = . %>% filter(ageasentered %in% c("15-19", "20-24", "25-29"), sex == "Male"),
+      fill = "#004137"
+    ) +
     geom_blank(aes(-cumulative)) +
-    geom_vline(xintercept = 0, color = 'white') +
+    geom_vline(xintercept = 0, color = "white") +
     scale_x_continuous(labels = abs) +
     scale_fill_identity() +
-    labs(x = NULL, y = NULL,
-         title = "MINORIA IS MISSING FINDING 15-29 YEAR OLD <span style = 'color:#287c6f;'>MEN</span>",
-         caption = "Source: Faux training MSD 2023") +
+    labs(
+      x = NULL, y = NULL,
+      title = "MINORIA IS MISSING FINDING 15-29 YEAR OLD <span style = 'color:#287c6f;'>MEN</span>",
+      caption = glue("{data_source}")
+    ) +
     si_style_xgrid() +
-    theme(legend.position = "none",
-          axis.title = element_blank(),
-          plot.title = element_markdown())
+    theme(
+      legend.position = "none",
+      axis.title = element_blank(),
+      plot.title = element_markdown()
+    )
+
   
   si_save("Images/distribution.png", scale = 1.3, height = 4, width = 4)
   
-
-    
-
-  
-
-
+  make_data_jpg(df_pyramid, "distribution")
