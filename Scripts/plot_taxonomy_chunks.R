@@ -92,7 +92,8 @@
     ) %>%
     summarize(across(c(contains("qtr")), \(x) sum(x, na.rm = T)), 
               .by = "fiscal_year") %>%
-    reshape_msd() 
+    reshape_msd() %>% 
+    arrange(period)
 
   # Create time-series graph shaded below
   df_time %>%
@@ -102,6 +103,7 @@
     scale_x_discrete(breaks = every_nth(2)) +
     labs(title = "POSITIVE TESTS HAVE DECLINED OVER TIME",
          caption = glue("{data_source}")) +
+    scale_y_continuous(labels = comma) +
     si_style()
 
   si_save("Images/change_over_time.png", scale = 1.3, height = 4, width = 4)
@@ -119,7 +121,7 @@
     summarize(across(c(contains("qtr")), \(x) sum(x, na.rm = T)), 
               .by = c("snu1", "fiscal_year")) %>%
     reshape_msd() %>%
-    filter(period == min(period) | period == max(period))
+    filter(period == min(period) | period == max(period)) 
 
  # Create a slop graph
  df_time_snu1 %>%
@@ -182,7 +184,8 @@
     ) +
     theme(legend.position = "none") +
     labs(title = str_to_upper(glue("{prop_fill}% of all positive tests are\nfrom Other PITC testing")),
-         caption = glue("{data_source}"))
+         caption = glue("{data_source}")) +
+    si_style_void()
   
   si_save("Images/waffle.png", scale = 1.3, height = 4, width = 4)
   
@@ -215,6 +218,10 @@
   
   si_save("Images/small_multiples.png", scale = 1.3, height = 4, width = 4)
 
+  df_index %>% 
+    slice_max(share, n = 5) %>%
+    mutate(benchmark = 1) %>% 
+    make_data_jpg(., "small_multiples")
 
 # DISTRIBUTION ------------------------------------------------------------
 
