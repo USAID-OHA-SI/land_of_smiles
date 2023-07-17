@@ -197,7 +197,35 @@
 
 # DISTRIBUTION ------------------------------------------------------------
 
-  # Look at VLS?
+  df_pyramid <- df %>%
+    filter(
+      indicator %in% c("HTS_TST_POS"),
+      standardizeddisaggregate == "Modality/Age/Sex/Result",
+      fiscal_year == 2060,
+      ageasentered != "Unknown Age"
+    ) %>%
+    summarise(cumulative = sum(cumulative, na.rm = T), 
+              .by = c(indicator, sex, ageasentered)) %>% 
+    mutate(cumulative = ifelse(sex == "Female", -cumulative, cumulative),
+           fill_color = ifelse(sex == "Female", moody_blue, genoa))
+  
+  
+  df_pyramid %>% 
+    ggplot(aes(cumulative, ageasentered, group = "sex", fill = fill_color)) +
+    geom_col() +
+    geom_blank(aes(-cumulative)) +
+    geom_vline(xintercept = 0, color = 'white') +
+    scale_x_continuous(labels = abs) +
+    scale_fill_identity() +
+    labs(x = NULL, y = NULL,
+         title = "MINORIA IS MISSING FINDING 15-29 YEAR OLD <span style = 'color:#287c6f;'>MEN</span>",
+         caption = "Source: Faux training MSD 2023") +
+    si_style_xgrid() +
+    theme(legend.position = "none",
+          axis.title = element_blank(),
+          plot.title = element_markdown())
+  
+  si_save("Images/distribution.png", scale = 1.3, height = 4, width = 4)
   
 
     
