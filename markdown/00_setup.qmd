@@ -9,7 +9,7 @@ editor: source
 ## Learning objectives
 
 -   Become familiar with RStudio's user interface
--   Setup snippets
+-   Setup snippets + script structure
 -   Understand basic operations
 -   Know how to install and load packages
 
@@ -44,6 +44,74 @@ To create your own snippets in Rstudio, go to “Tools > Global Options > Code >
 
 We can start coding right in the Console, but the value of a coding language is being able to save and document workflows. Anything written in the Console will execute your code, but you can't easily save and share it. Instead, you want to open up a new R Script; in the IDE, go to File > New File > R Script or use the short cut CTRL + SHIFT + N. 
 
+Each time you open a new script, we recommend organizing it, which will make it easier for you to think through and you/others to review in the future. We can organize our scripts with a similar flow to organizing a document, to clean up the script visually and help you and others better understand what each part of the script is used for. We can utilize comments to add headers into our script for organization.
+
+While there is no one right way to organize a script, here is an example of how we tend to set up our scripts within OHA/SI.  
+
+**Introduction**: includes the header matter including name of author, purpose of script, date, reference id, and any notes
+**Load Dependencies and Libraries**: this is where you will identify which package to load
+**Define global options or functions**: set up global variables as well (variables you want to call on throughout the script). such as the file location or today's date.
+**Import Data**: import all the dataset you need for your script in this section, rather than doing it in piecemeal through our your script
+**Data Cleaning**: where most of the munging occurs to get your data in the best place to analyze/visualize
+**Analysis/Visualization**: where the magic happens!
+**Export**: export any output datasets or visuals
+
+Here is what the structure might look like in your script.
+
+```
+# PROJECT:  QUEST FOR THE HOLY GRAIL
+# AUTHOR:   A.Chafetz | USAID
+# PURPOSE:  figure out where to start our journey
+# REF ID:   29a4991d 
+# LICENSE:  MIT
+# DATE:     2023-08-28
+# UPDATED: 
+
+# DEPENDENCIES ------------------------------------------------------------
+  
+  library(tidyverse)
+  library(gagglr)
+  library(glue)
+  library(scales)
+  library(extrafont)
+  library(tidytext)
+  library(patchwork)
+  library(ggtext)
+  
+
+# GLOBAL VARIABLES --------------------------------------------------------
+  
+  ref_id <- "29a4991d" #id for adorning to plots, making it easier to find on GH
+  
+  get_metadata() #list of MSD metadata elements
+
+# IMPORT ------------------------------------------------------------------
+  
+  df_msd <- si_path() %>%
+    return_latest("OU_IM") %>% 
+    read_psd()   
+  
+
+# MUNGE -------------------------------------------------------------------
+
+  ...
+  
+
+# VIZUALIZE ---------------------------------------------------------------
+
+  ...
+  
+# EXPORT ------------------------------------------------------------------
+
+  ...
+  
+
+```
+
+This is where the Snippets you setup earlier come in handy. You can use the shortcut from the snippet to add this structure to your script. If you start typing `rscript` you should see an autocomplete for the snippet and you can hit TAB; at that point, the structure will populate in your script.
+
+
+## Basic Operations
 You can perform basic operations in R, like addition and multiplication. To run code from the console, you will hit CTRL + ENTER. This will run the current line your cursor is on. To run multiple lines, you will highlight those lines and then hit CTRL + ENTER. You can also run the entire script by clicking the "Source" button on the top right corner, or run highlighted lines by clicking "Run."
 
 ```{r}
