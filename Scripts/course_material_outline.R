@@ -371,5 +371,41 @@ folder_setup()
   df_subnat <- return_latest("Data", "NAT_SUBNAT") %>% 
     read_psd() 
 
-  glimpse(df_subnat)  
+  glimpse(df_subnat) 
+  
+  
+  df_plhiv <- df_subnat %>% 
+    filter(#fiscal_year == max(df_msd$fiscal_year),
+           indicator == "PLHIV",
+           standardizeddisaggregate == "Total Numerator") %>% 
+    group_by(fiscal_year, psnu) %>% 
+    summarise(plhiv = sum(targets, na.rm = TRUE),
+              .groups = "drop")
+  
+  ?left_join
+  
+  df_index_psnu_trend %>% 
+    left_join(df_plhiv) %>% 
+    arrange(psnu, fiscal_year)
+  
+  df_plhiv_latest <- df_plhiv %>% 
+    filter(fiscal_year == max(df_msd$fiscal_year)) %>% 
+    select(-fiscal_year)
+  
+  df_index_psnu_trend %>% 
+    left_join(df_plhiv_latest) %>% 
+    arrange(psnu, fiscal_year)
+  
+  ?right_join
+  
+  df_index_psnu_trend %>% 
+    filter(fiscal_year == 2060) %>% 
+    right_join(df_plhiv_latest)
+  
+  
+  ?full_join
+  
+  df_index_psnu_trend %>% 
+    filter(fiscal_year == 2060) %>% 
+    full_join(df_plhiv_latest)
   
