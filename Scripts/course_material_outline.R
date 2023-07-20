@@ -364,3 +364,12 @@ folder_setup()
     ungroup() %>% 
     filter(fiscal_year == max(fiscal_year))
   
+
+
+# MERGE & APPEND ----------------------------------------------------------
+
+  df_subnat <- return_latest("Data", "NAT_SUBNAT") %>% 
+    read_psd() 
+
+  glimpse(df_subnat)  
+  
