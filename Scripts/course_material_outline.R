@@ -388,24 +388,31 @@ folder_setup()
     left_join(df_plhiv) %>% 
     arrange(psnu, fiscal_year)
   
+  df_index_psnu_trend %>% 
+    tidylog::left_join(df_plhiv) %>% 
+    arrange(psnu, fiscal_year)
+  
   df_plhiv_latest <- df_plhiv %>% 
     filter(fiscal_year == max(df_msd$fiscal_year)) %>% 
     select(-fiscal_year)
   
   df_index_psnu_trend %>% 
-    left_join(df_plhiv_latest) %>% 
+    tidylog::left_join(df_plhiv_latest) %>% 
     arrange(psnu, fiscal_year)
   
   ?right_join
   
-  df_index_psnu_trend %>% 
-    filter(fiscal_year == 2060) %>% 
-    right_join(df_plhiv_latest)
+  df_index_psnu %>% 
+    tidylog::right_join(df_plhiv_latest)
   
   
   ?full_join
   
-  df_index_psnu_trend %>% 
-    filter(fiscal_year == 2060) %>% 
-    full_join(df_plhiv_latest)
+  df_index_psnu %>% 
+    tidylog::full_join(df_plhiv_latest %>% filter(plhiv > 10000))
+  
+  ?bind_rows
+  
+  df_msd %>% 
+    bind_rows(df_subnat)
   
