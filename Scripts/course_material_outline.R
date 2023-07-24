@@ -130,128 +130,108 @@ folder_setup()
 
 # SUMMARIZING AND GROUPING ------------------------------------------------
 
-  df_msd %>% 
-    filter(indicator == "HTS_TST") %>% 
+  
+  df_hts <- df_msd %>% 
+    filter(indicator == "HTS_TST") 
+  
+  df_hts %>% 
     count(indicator, wt = cumulative)
   
   ?count
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST") %>% 
+  df_hts %>% 
     count(indicator, fiscal_year, standardizeddisaggregate, wt = cumulative)
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST") %>% 
+  df_hts %>% 
     count(indicator, fiscal_year, modality, wt = cumulative)
   
-  unique(df_msd$modality)
+  unique(df_hts$modality)
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           fiscal_year == 2060) %>% 
+  df_hts %>% 
+    filter(fiscal_year == 2060) %>% 
     count(indicator, fiscal_year, modality, wt = cumulative)
   
   ?arrange
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           standardizeddisaggregate == "Modality/Age/Sex/Result",
+  df_hts %>% 
+    filter(standardizeddisaggregate == "Modality/Age/Sex/Result",
            fiscal_year == 2060) %>% 
     count(indicator, fiscal_year, modality, wt = cumulative) %>% 
     arrange(n)
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           standardizeddisaggregate == "Modality/Age/Sex/Result",
+  df_hts %>% 
+    filter(standardizeddisaggregate == "Modality/Age/Sex/Result",
            fiscal_year == 2060) %>% 
     count(indicator, fiscal_year, modality, wt = cumulative) %>% 
     arrange(desc(n))
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           standardizeddisaggregate == "Modality/Age/Sex/Result",
+  df_hts %>% 
+    filter(standardizeddisaggregate == "Modality/Age/Sex/Result",
            fiscal_year == 2060) %>% 
     count(indicator, fiscal_year, modality, wt = cumulative, sort = TRUE)
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           modality == "Index") %>% 
+  df_hts %>% 
+    filter(modality == "Index") %>% 
     count(fiscal_year, indicator, modality, wt = cumulative)
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           modality %in% c("Index", "IndexMod")) %>% 
+  df_hts %>% 
+    filter(modality %in% c("Index", "IndexMod")) %>% 
     count(fiscal_year, indicator, modality, wt = cumulative)
+  
+  df_index <- df_hts %>% 
+    filter(modality %in% c("Index", "IndexMod")) 
   
   ?summarize
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           modality %in% c("Index", "IndexMod")) %>% 
+  df_index %>% 
     summarize(cumulative = sum(cumulative))
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           modality %in% c("Index", "IndexMod")) %>% 
+  df_index %>% 
     summarize(cumulative = sum(cumulative, na.rm = TRUE))
   
   ?group_by
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           modality %in% c("Index", "IndexMod")) %>%
+  df_index %>%
     group_by(modality) %>% 
     summarize(cumulative = sum(cumulative, na.rm = TRUE)) %>% 
     ungroup()
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           modality %in% c("Index", "IndexMod")) %>%
+  df_index %>% 
     group_by(fiscal_year, modality) %>% 
     summarize(cumulative = sum(cumulative, na.rm = TRUE),
               .groups = "drop")
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           modality %in% c("Index", "IndexMod")) %>%
+  df_index %>%
     group_by(fiscal_year) %>% 
     summarize(cumulative = sum(cumulative, na.rm = TRUE),
               .groups = "drop")
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           modality %in% c("Index", "IndexMod"),
-           fiscal_year == 2060) %>%
+  df_index %>% 
+    filter(fiscal_year == 2060) %>%
     group_by(fiscal_year, psnu) %>% 
     summarize(cumulative = sum(cumulative, na.rm = TRUE),
               .groups = "drop")
   
   ?across
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           modality %in% c("Index", "IndexMod"),
-           fiscal_year == 2060) %>%
+  df_index %>% 
+    filter(fiscal_year == 2060) %>%
     group_by(fiscal_year, psnu) %>% 
     summarize(across(c(targets, qtr1, qtr2, qtr3, qtr4, cumulative), \(x) sum(x, na.rm = TRUE)),
               .groups = "drop")
   
   ?starts_with
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           modality %in% c("Index", "IndexMod"),
-           fiscal_year == 2060) %>%
+  df_index %>% 
+    filter(fiscal_year == 2060) %>%
     group_by(fiscal_year, psnu) %>% 
     summarize(across(c(targets, starts_with("qtr"), cumulative), \(x) sum(x, na.rm = TRUE)),
               .groups = "drop")
   
   ?where
   
-  df_msd %>% 
-    filter(indicator == "HTS_TST",
-           modality %in% c("Index", "IndexMod"),
-           fiscal_year == 2060) %>%
+  df_index %>% 
+    filter(fiscal_year == 2060) %>%
     group_by(fiscal_year, psnu) %>% 
     summarize(across(where(is.double), \(x) sum(x, na.rm = TRUE)),
               .groups = "drop")
