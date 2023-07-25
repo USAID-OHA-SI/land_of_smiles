@@ -39,7 +39,7 @@
 # MUNGE ============================================================================
   
   # Create a list of key partners we want to focus analysis on
-  df %>% 
+  df_msd %>% 
     filter(indicator %in% c("HTS_TST_POS", "TX_CURR", "TX_PVLS"), 
            standardizeddisaggregate == "Total Numerator", 
            fiscal_year == 2060) %>% 
@@ -47,7 +47,7 @@
     summarise(tgt = sum(targets, na.rm = T)) %>% 
     spread(indicator, tgt)
     
-    distinct(funding_agency, prime_partner_name, mech_code, mech_name) %>% 
-    arrange(funding_agency) %>% 
-    prinf()
+    df_msd %>% distinct(funding_agency, prime_partner_name, mech_code, mech_name) 
+    
+    
 
