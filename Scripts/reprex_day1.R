@@ -1,6 +1,13 @@
-
+# PROJECT:  land_of_smiles
+# AUTHOR:   T. Essam | USAID
+# PURPOSE:  snippets from day 2
+# LICENSE:  MIT
+# DATE:     2023-07-24
+# UPDATED: 
 
 # Project Setup & Data Prep -----------------------------------------------
+  library(tidyverse)
+  library(gagglr)
 
 
 # Working directory screenshot
@@ -125,4 +132,56 @@ df_mechs <-
   df_msd %>% 
   select(contains("mech"))
 
+# Fin
 
+
+
+# Joining -----------------------------------------------------------------
+
+  #load the df_subnat data
+  subnat_path <- list.files("Data", pattern = "SUBNAT", full.names = TRUE)
+  df_subnat <- read_psd(subnat_path)
+  
+  # Practice joining the interational partner labels to the mechanisms
+  df_msd %>% distinct(funding_agency, prime_partner_name, mech_code, mech_name)
+  
+  # Should this be a URL on github?
+  # An excel file?
+  library(googlesheets4)
+  load_secrets()
+  df_lp <- read_sheet(ss = "17AN5LjuPk7lMBitf4UPmEXEPdf4T-qWBTFTvjISiPYI")
+
+  df_msd_subset <- 
+    df_msd %>% 
+    filter(indicator == "HTS_TST")
+  
+  # Should break because of incompatible types
+  left_join(df_msd_subset, df_lp)
+  
+  
+  # Try this again with proper columns
+  # Should this be a URL on github?
+  # An excel file?
+  library(googlesheets4)
+  load_secrets()
+  df_lp <- read_sheet(ss = "17AN5LjuPk7lMBitf4UPmEXEPdf4T-qWBTFTvjISiPYI", sheet = 2)
+  
+  df_msd_subset <- 
+    df_msd %>% 
+    filter(indicator == "HTS_TST")
+  
+  # Should break because of incompatible types
+  tidylog::left_join(df_msd_subset, df_lp)
+  tidylog::right_join(df_msd_subset, df_lp)
+  tidylog::full_join(df_msd_subset, df_lp)
+  
+  # How many partners do we expect to match?
+  df_msd_mechs <- df_msd_subset %>% distinct(mech_code, mech_name)
+  df_lp_mechs <- df_lp %>% distinct(mech_code, mech_name)
+  
+  # How to check overlap?
+  intersect(df_lp_mechs$mech_code, df_msd_mechs$mech_code)
+  setdiff(df_lp_mechs$mech_code, df_msd_mechs$mech_code)
+  setequal(df_lp_mechs$mech_code, df_msd_mechs$mech_code)
+  
+  
