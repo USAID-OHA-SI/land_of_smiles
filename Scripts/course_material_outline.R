@@ -140,10 +140,14 @@ folder_setup()
   ?count
   
   df_hts %>% 
-    count(indicator, fiscal_year, standardizeddisaggregate, wt = cumulative)
+    count(indicator, fiscal_year, standardizeddisaggregate, 
+          wt = cumulative)
   
   df_hts %>% 
-    count(indicator, fiscal_year, modality, wt = cumulative)
+    distinct(modality)
+  
+  df_hts %>% 
+    count(modality)
   
   unique(df_hts$modality)
   
@@ -192,32 +196,44 @@ folder_setup()
   ?group_by
   
   df_index %>%
-    group_by(modality) %>% 
+    group_by(fiscal_year, modality) %>% 
+    summarize(cumulative = sum(cumulative, na.rm = TRUE)) %>% 
+    ungroup()
+  
+  df_index %>%
+    group_by(fiscal_year) %>% 
     summarize(cumulative = sum(cumulative, na.rm = TRUE)) %>% 
     ungroup()
   
   df_index %>% 
-    group_by(fiscal_year, modality) %>% 
+    group_by(fiscal_year) %>% 
     summarize(cumulative = sum(cumulative, na.rm = TRUE),
               .groups = "drop")
   
   df_index %>%
     group_by(fiscal_year) %>% 
     summarize(cumulative = sum(cumulative, na.rm = TRUE),
-              .groups = "drop")
+              .by = c(fiscal_year, modality))
   
+
   df_index %>% 
-    filter(fiscal_year == 2060) %>%
-    group_by(fiscal_year, psnu) %>% 
+    group_by(fiscal_year) %>% 
     summarize(cumulative = sum(cumulative, na.rm = TRUE),
+              targets = sum(targets, na.rm = TRUE),
               .groups = "drop")
   
   ?across
   
   df_index %>% 
-    filter(fiscal_year == 2060) %>%
-    group_by(fiscal_year, psnu) %>% 
-    summarize(across(c(targets, qtr1, qtr2, qtr3, qtr4, cumulative), \(x) sum(x, na.rm = TRUE)),
+    group_by(fiscal_year) %>% 
+    summarize(across(c(targets, cumulative), 
+                     \(x) sum(x, na.rm = TRUE)),
+              .groups = "drop")
+  
+  df_index %>% 
+    group_by(fiscal_year) %>% 
+    summarize(across(c(targets, qtr1, qtr2, qtr3, qtr4, cumulative), 
+                     \(x) sum(x, na.rm = TRUE)),
               .groups = "drop")
   
   ?starts_with
@@ -237,6 +253,13 @@ folder_setup()
               .groups = "drop")
   
   
+  
+  df_index %>% 
+    group_by(fiscal_year) %>% 
+    summarize(max_value = max(cumulative, na.rm = TRUE),
+              total_records = n(),
+              .groups = "drop")
+
 
 # MUTATE ------------------------------------------------------------------
 
