@@ -139,6 +139,8 @@ df_tst_psnu %>%
   theme_minimal()
 si_save("Images/ggplot_8", height = h, width = w)
 
+# Starter Code for Exercises
+
 
 # AESTHETICS ------------------------------------------------------
 
@@ -208,6 +210,8 @@ df_tst_psnu %>%
   geom_point()
 si_save("Images/ggplot_aes_combining", height = h, width = w)
 
+# Starter Code for Exercises
+
 
 # GEOMS -------------------------------------------------------------------
 
@@ -266,6 +270,7 @@ df_tst_psnu %>%
   si_style_ygrid()
 si_save("Images/ggplot_geoms_combined", height = h, width = w, scale = 1.25)
 
+# Starter Code for Exercises
 
 
 # THEMES ------------------------------------------------------------------
@@ -315,6 +320,8 @@ df_tst_psnu %>%
   si_style()
 si_save("Images/ggplot_theme_si", height = h, width = w)
 
+# Starter Code for Exercises
+
 
 
 # SORTING -----------------------------------------------------------------
@@ -350,6 +357,8 @@ si_save("Images/ggplot_sort_default_order", height = h, width = w)
   
   si_save("Images/ggplot_sort_forcats", height = h, width = w)
   
+  # Starter Code for Exercises
+  
 
 # COLORS ------------------------------------------------------------------
 
@@ -382,6 +391,8 @@ si_save("Images/ggplot_sort_default_order", height = h, width = w)
     scale_color_viridis_c()
   si_save("Images/ggplot_color_continous", height = h, width = w)
   
+  # Starter Code for Exercises
+  
 
 # LABELS ------------------------------------------------------------------
 
@@ -406,9 +417,14 @@ si_save("Images/ggplot_sort_default_order", height = h, width = w)
          title = "EUGENE LEADS IN TESTING",
          caption = "Source: Faux MSD Training Data")
   
+  # Starter Code for Exercises
+  
+  
 
-# AXES ticks --------------------------------------------------------------
+# AXES TICKS --------------------------------------------------------------
 
+  ?scale_x_continuous()
+  ?scale_y_discrete()
   df_tst_psnu %>% 
     filter(fiscal_year == 2060) %>% 
     mutate(psnu_order = fct_reorder(psnu, cumulative)) %>% 
@@ -416,7 +432,74 @@ si_save("Images/ggplot_sort_default_order", height = h, width = w)
     geom_col() +
     scale_x_continuous(breaks = seq(0, 1000, 100),
                        limits = c(0, 1000), 
-                       position = "top")
+                       position = "top") +
+    scale_y_discrete(labels = str_to_upper)
   
-  si_save("Images/ggplot_axis_ticks", height = h, width = w)
-    
+  si_save("Images/ggplot_axis_ticks_continous", height = h, width = w)
+  
+  df_tst_psnu %>% 
+    filter(fiscal_year == 2060) %>% 
+    mutate(psnu_order = fct_reorder(psnu, cumulative)) %>% 
+    ggplot(aes(y = psnu_order, x = cumulative)) +
+    geom_col() +
+    scale_y_discrete(labels = str_to_upper, 
+                     position = "right")
+  
+  si_save("Images/ggplot_axis_ticks_discrete", height = h, width = w)
+  
+ # Starter Code for Exercises
+  
+
+# REDUCE CLUTTER ----------------------------------------------------------
+  
+  df_tst_psnu %>% 
+    mutate(fy = fiscal_year %>% as.character()) %>% 
+    ggplot(aes(y = cumulative, x = fy)) +
+    geom_col(width = 0.5) + labs(title = "TESTING RESULTS") +
+    facet_wrap(~psnu) 
+  si_save("Images/ggplot_axis_clutter_base", height = h, width = w)
+  
+  
+  df_tst_psnu %>% 
+    mutate(fy = fiscal_year %>% as.character()) %>% 
+    ggplot(aes(y = cumulative, x = fy)) +
+    geom_col(width = 0.5) + labs(title = "TESTING RESULTS") +
+    facet_wrap(~psnu) +
+    theme(plot.title = element_text(family = "Times New Roman", color = "red"),
+          panel.grid.major  = element_line(colour = "gray50", size = 0.5),
+          panel.background = element_rect(fill = "gray99"))
+  
+  si_save("Images/ggplot_axis_clutter", height = h, width = w)
+  
+  # Starter Code & Exercises
+  df_tst_psnu %>% 
+    mutate(fy = fiscal_year %>% as.character()) %>% 
+    ggplot(aes(y = cumulative, x = fy)) +
+    geom_col(width = 0.5) + 
+    labs(title = "TESTING RESULTS",
+         subtitle = "Change my color",
+         caption = "can you change my font?") +
+    facet_wrap(~psnu) 
+  
+  # Move facet labels to the left
+  df_tst_psnu %>% 
+    mutate(fy = fiscal_year %>% as.character()) %>% 
+    ggplot(aes(y = cumulative, x = fy)) +
+    geom_col(width = 0.5) + 
+    labs(title = "TESTING RESULTS",
+         subtitle = "Change my color",
+         caption = "can you change my font?") +
+    facet_wrap(~psnu) +
+    theme()
+  
+# Comparing themes
+  theme_bw()$strip.text
+  si_style()$strip.text
+  
+  # Save list as an object
+  # Look through different list values
+  df_si <- si_style()
+  df_si$axis.title.x
+  
+  
+  
