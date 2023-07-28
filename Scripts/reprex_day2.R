@@ -19,6 +19,8 @@ df_tst <- df_msd %>%
     .by = c("fiscal_year", "indicator")
   )
 
+str(df_tst)
+
 # size
 h <- 3.25
 w <- 5.75
@@ -100,7 +102,7 @@ ggplot(
 )
 
 
-# Intro to ggplot2 --------------------------------------------------------
+# INTRO TO GGPLOT2 --------------------------------------------------------
 
 # Will it plot?
 df_tst_psnu <- df_msd %>%
@@ -370,10 +372,22 @@ si_save("Images/ggplot_sort_default_order", height = h, width = w)
   
   si_save("Images/ggplot_color_default", height = h, width = w)
   
+  # Manually overriding
+  df_tst_psnu %>% 
+    filter(fiscal_year == 2060) %>% 
+    ggplot(aes(y = psnu, x = cumulative, 
+               fill = psnu)) +
+    geom_col() +
+    scale_fill_manual(values = c("Great Lakes" = "coral",
+                                 "Albuquerque" = "orange",
+                                 "Eugene" = "gray20"))
+  
+  si_save("Images/ggplot_color_manual", height = h, width = w)
+  
   df_tst_psnu %>% 
     filter(fiscal_year == 2060) %>% 
     mutate(psnu_color = ifelse(psnu == "Eugene", 
-                               "#939598", "#5BB5D5")) %>% 
+                               "#939598", "#5BB5D5")) %>% View()
     ggplot(aes(y = psnu, x = cumulative, 
                fill = psnu_color)) +
     geom_col() +
@@ -499,7 +513,57 @@ si_save("Images/ggplot_sort_default_order", height = h, width = w)
   # Save list as an object
   # Look through different list values
   df_si <- si_style()
-  df_si$axis.title.x
+  df_si$plot.title
+ 
   
+
+# SMALL MULTIPLES ---------------------------------------------------------
   
+  # Facet wrap
+  df_tst_psnu %>% 
+    mutate(fy = fiscal_year %>% as.character()) %>% 
+    ggplot(aes(y = cumulative, x = fy)) +
+    geom_col(width = 0.5) + labs(title = "TESTING RESULTS") +
+    facet_wrap(psnu ~ ., scales = "free_y", strip.position = "bottom")   
+  
+  si_save("Images/ggplot_facet_wrap", height = h, width = w)
+  
+  # Facet grid
+  df_tst_psnu %>% 
+    mutate(fy = fiscal_year %>% as.character()) %>% 
+    ggplot(aes(y = cumulative, x = fy)) +
+    geom_col(width = 0.5) + labs(title = "TESTING RESULTS") +
+    facet_grid(psnu ~ ., switch = "y", scales = "free_y", space = "free")
+  
+  si_save("Images/ggplot_facet_grid", height = h, width = w)
+  
+ 
+
+# GLITR DEMO --------------------------------------------------------------
+
+  #install
+  install.packages("remotes")
+  remotes::install_github("USAID-OHA-SI/glitr", build_vignettes = TRUE)
+  
+  # Load
+  library(glitr) 
+  
+  # Facet grid
+  df_tst_psnu %>% 
+    mutate(fy = fiscal_year %>% as.character()) %>% 
+    ggplot(aes(y = cumulative, x = fy)) +
+    geom_point(size = 4, aes(color = psnu),
+               position = position_jitter(width = 0.1)) +
+    si_style() +
+    scale_color_si(palette = "old_rose", discrete = T) +
+    labs(title = "Great Lakes leads the way in testing",
+         caption = "Source: 2023 Faux MSD data")
+  
+  si_save("Images/ggplot_si_style", height = h, width = w)
+  
+  si_palettes$siei_pairs %>% show_col(labels = T, borders = T)
+  si_save("Images/ggplot_si_pairs.png", height = h, width = w)
+  
+  old_rose
+  "#2057a7" "#c43d4d" "#8980cb" "#e07653" "#1e87a5" "#f2bc40" "#287c6f" 
   
