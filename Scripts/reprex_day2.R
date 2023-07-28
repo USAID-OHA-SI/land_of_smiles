@@ -314,3 +314,109 @@ df_tst_psnu %>%
   facet_wrap(~psnu) +
   si_style()
 si_save("Images/ggplot_theme_si", height = h, width = w)
+
+
+
+# SORTING -----------------------------------------------------------------
+
+  # Sort or depends on the data type.
+  # When dealing with categorical variables, use factors to make your live easier.
+
+  
+  df_tst_psnu %>% 
+  filter(fiscal_year == 2060) %>% 
+  ggplot(aes(y = psnu, x = cumulative)) +
+  geom_col()
+si_save("Images/ggplot_sort_default_order", height = h, width = w)
+
+# Creating a factor
+  df_tst_fct <- df_tst_psnu %>% 
+    mutate(psnu_fct = factor(psnu)) 
+  
+  str(df_tst_fct)
+  levels(df_tst_fct$psnu_fct)
+  
+  # Forcats to order from largest to smallest
+  df_tst_psnu %>% 
+    filter(fiscal_year == 2060) %>% 
+    mutate(psnu_order = fct_reorder(psnu, cumulative)) %>% 
+    ggplot(aes(y = psnu_order, x = cumulative)) +
+    geom_col()
+  
+  tmp <- df_tst_psnu %>% 
+    filter(fiscal_year == 2060) %>% 
+    mutate(psnu_order = fct_reorder(psnu, cumulative))
+    levels(tmp$psnu_order)
+  
+  si_save("Images/ggplot_sort_forcats", height = h, width = w)
+  
+
+# COLORS ------------------------------------------------------------------
+
+  df_tst_psnu %>% 
+    filter(fiscal_year == 2060) %>% 
+    ggplot(aes(y = psnu, x = cumulative, 
+               fill = psnu)) +
+    geom_col() 
+  
+  si_save("Images/ggplot_color_default", height = h, width = w)
+  
+  df_tst_psnu %>% 
+    filter(fiscal_year == 2060) %>% 
+    mutate(psnu_color = ifelse(psnu == "Eugene", 
+                               "#939598", "#5BB5D5")) %>% 
+    ggplot(aes(y = psnu, x = cumulative, 
+               fill = psnu_color)) +
+    geom_col() +
+    scale_fill_identity()
+  
+  si_save("Images/ggplot_color_identity", height = h, width = w)
+
+  # Continuous
+  set.seed(42)
+  df_tst_psnu %>% 
+    mutate(fy = fiscal_year %>% as.character()) %>% 
+    ggplot(aes(x = fy, y = cumulative,
+               color = cumulative)) +
+    geom_point(size = 10, position = position_jitter(width = 0.1)) +
+    scale_color_viridis_c()
+  si_save("Images/ggplot_color_continous", height = h, width = w)
+  
+
+# LABELS ------------------------------------------------------------------
+
+  
+  df_tst_psnu %>% 
+    filter(fiscal_year == 2060) %>% 
+    mutate(psnu_order = fct_reorder(psnu, cumulative)) %>% 
+    ggplot(aes(y = psnu_order, x = cumulative)) +
+    geom_col() +
+    labs(x = "HTS_TST_POS", y = "PSNU",
+         title = "EUGENE LEADS IN TESTING",
+         caption = "Source: Faux MSD Training Data")
+  
+  si_save("Images/ggplot_labs", height = h, width = w)
+  
+  df_tst_psnu %>% 
+    filter(fiscal_year == 2060) %>% 
+    mutate(psnu_order = fct_reorder(psnu, cumulative)) %>% 
+    ggplot(aes(y = psnu_order, x = cumulative)) +
+    geom_col() +
+    labs(x = "HTS_TST_POS", y = "PSNU",
+         title = "EUGENE LEADS IN TESTING",
+         caption = "Source: Faux MSD Training Data")
+  
+
+# AXES ticks --------------------------------------------------------------
+
+  df_tst_psnu %>% 
+    filter(fiscal_year == 2060) %>% 
+    mutate(psnu_order = fct_reorder(psnu, cumulative)) %>% 
+    ggplot(aes(y = psnu_order, x = cumulative)) +
+    geom_col() +
+    scale_x_continuous(breaks = seq(0, 1000, 100),
+                       limits = c(0, 1000), 
+                       position = "top")
+  
+  si_save("Images/ggplot_axis_ticks", height = h, width = w)
+    
