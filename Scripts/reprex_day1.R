@@ -40,7 +40,7 @@ subnat_path <- list.files("Data", pattern = "NAT_SUBNAT", full.names = T)
 subnat_path
 
 # Exercise
-msd_path <- subnat_path <- list.files("Data", pattern = "PSNU", full.names = T)
+msd_path <- list.files("Data", pattern = "PSNU", full.names = T)
 
 read_psd(msd_path)
 

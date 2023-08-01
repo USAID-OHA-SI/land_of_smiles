@@ -5,101 +5,108 @@
 # DATE:     2023-07-24
 # UPDATED:
 
-# Project Setup & Data Prep -----------------------------------------------
-library(tidyverse)
-library(gagglr)
 
-df_msd <- return_latest("Data", "PSNU_IM") %>%
-  read_psd()
+# Global Settings ---------------------------------------------------------
+  
+  # Libraries needed
+  library(tidyverse)
+  library(gagglr)
+  library(scales)
 
-df_tst <- df_msd %>%
-  filter(indicator == "HTS_TST_POS") %>%
-  summarize(
-    cumulative = sum(cumulative, na.rm = T),
-    .by = c("fiscal_year", "indicator")
+  # Plot size
+  h <- 3.25
+  w <- 5.75
+
+# GGPLOT2 Demo Data -------------------------------------------------------
+
+
+  df_msd <- return_latest("Data", "PSNU_IM") %>%
+    read_psd()
+  
+  df_tst <- df_msd %>%
+    filter(indicator == "HTS_TST_POS") %>%
+    summarize(
+      cumulative = sum(cumulative, na.rm = T),
+      .by = c("fiscal_year", "indicator")
+    )
+  
+  str(df_tst)
+
+
+
+  # Empty plot
+  ggplot(data = df_tst)
+  si_save("Images/ggplot_1", height = h, width = w)
+
+  # Add in mapping
+  ggplot(
+    data = df_tst,
+    mapping = aes(x = fiscal_year, y = cumulative)
   )
+  si_save("Images/ggplot_2", height = h, width = w)
 
-str(df_tst)
-
-# size
-h <- 3.25
-w <- 5.75
-
-# Empty plot
-ggplot(data = df_tst)
-si_save("Images/ggplot_1", height = h, width = w)
-
-# Add in mapping
-ggplot(
-  data = df_tst,
-  mapping = aes(x = fiscal_year, y = cumulative)
-)
-si_save("Images/ggplot_2", height = h, width = w)
-
-# Add in geom
-ggplot(
-  data = df_tst,
-  mapping = aes(x = fiscal_year, y = cumulative)
-) +
-  geom_col()
-si_save("Images/ggplot_3", height = h, width = w)
-
-# Add in geom
-ggplot(
-  data = df_tst,
-  mapping = aes(x = fiscal_year, y = cumulative)
-) +
-  geom_col() +
-  labs(title = "2058 HAD THE MOST POSITIVE TESTS IN MINORIA")
-si_save("Images/ggplot_4", , height = h, width = w)
-
-
-# Add in geom
-ggplot(
-  data = df_tst,
-  mapping = aes(x = fiscal_year, y = cumulative)
-) +
-  geom_col() +
-  labs(title = "2058 HAD THE MOST POSITIVE TESTS IN MINORIA") +
-  theme_minimal()
-si_save("Images/ggplot_5", , height = h, width = w)
-
-# Change bar color
-ggplot(
-  data = df_tst,
-  mapping = aes(x = fiscal_year, y = cumulative)
-) +
-  geom_col(fill = "#5BB5D5", width = 0.5) +
-  labs(title = "2058 HAD THE MOST POSITIVE TESTS IN MINORIA") +
-  theme_minimal()
-si_save("Images/ggplot_6", height = h, width = w)
-
-
-# Change bar color
-ggplot(
-  data = df_tst,
-  mapping = aes(x = fiscal_year, y = cumulative)
-) +
-  geom_col(fill = "#5BB5D5", width = 0.5) +
-  labs(
-    title = "2058 HAD THE MOST POSITIVE TESTS IN MINORIA",
-    x = NULL, y = NULL
+  # Add in geom
+  ggplot(
+    data = df_tst,
+    mapping = aes(x = fiscal_year, y = cumulative)
   ) +
-  scale_x_continuous(breaks = seq(2058, 2060, 1)) +
-  scale_y_continuous(labels = scales::comma) +
-  si_style_ygrid()
+    geom_col()
+  si_save("Images/ggplot_3", height = h, width = w)
 
-si_save("Images/ggplot_7", height = h, width = w)
+  # Add in a title
+  ggplot(
+    data = df_tst,
+    mapping = aes(x = fiscal_year, y = cumulative)
+  ) +
+    geom_col() +
+    labs(title = "2058 HAD THE MOST POSITIVE TESTS IN MINORIA")
+  si_save("Images/ggplot_4", height = h, width = w)
 
 
+  # Add in geom, title, and theme
+  ggplot(
+    data = df_tst,
+    mapping = aes(x = fiscal_year, y = cumulative)
+  ) +
+    geom_col() +
+    labs(title = "2058 HAD THE MOST POSITIVE TESTS IN MINORIA") +
+    theme_minimal()
+  si_save("Images/ggplot_5", height = h, width = w)
+
+  # Change bar color
+  ggplot(
+    data = df_tst,
+    mapping = aes(x = fiscal_year, y = cumulative)
+  ) +
+    geom_col(fill = "#5BB5D5", width = 0.5) +
+    labs(title = "2058 HAD THE MOST POSITIVE TESTS IN MINORIA") +
+    theme_minimal()
+  si_save("Images/ggplot_6", height = h, width = w)
 
 
-# Starter code
-# Test different geoms
-ggplot(
-  data = df_tst,
-  mapping = aes(x = fiscal_year, y = cumulative)
-)
+  # Change bar color, clean up axes, add si_style
+  ggplot(
+    data = df_tst,
+    mapping = aes(x = fiscal_year, y = cumulative)
+  ) +
+    geom_col(fill = "#5BB5D5", width = 0.5) +
+    labs(
+      title = "2058 HAD THE MOST POSITIVE TESTS IN MINORIA",
+      x = NULL, y = NULL
+    ) +
+    scale_x_continuous(breaks = seq(2058, 2060, 1)) +
+    scale_y_continuous(labels = scales::comma) +
+    si_style_ygrid()
+  
+  si_save("Images/ggplot_7", height = h, width = w)
+
+
+  # Starter code
+  # Test different geoms
+  ggplot(
+    data = df_tst,
+    mapping = aes(x = fiscal_year, y = cumulative)
+  )
 
 
 # INTRO TO GGPLOT2 --------------------------------------------------------
@@ -451,6 +458,17 @@ si_save("Images/ggplot_sort_default_order", height = h, width = w)
   
   si_save("Images/ggplot_axis_ticks_continous", height = h, width = w)
   
+  # Scales package
+  df_tst_psnu %>% 
+    filter(fiscal_year == 2060) %>% 
+    mutate(psnu_order = fct_reorder(psnu, cumulative),
+           cumulative = cumulative * 1000) %>% 
+    ggplot(aes(y = psnu_order, x = cumulative)) +
+    geom_col() +
+    scale_x_continuous(labels = scales::comma,
+                       position = "top") 
+  si_save("Images/ggplot_axis_ticks_scales", height = h, width = w)
+  
   df_tst_psnu %>% 
     filter(fiscal_year == 2060) %>% 
     mutate(psnu_order = fct_reorder(psnu, cumulative)) %>% 
@@ -566,4 +584,18 @@ si_save("Images/ggplot_sort_default_order", height = h, width = w)
   
   old_rose
   "#2057a7" "#c43d4d" "#8980cb" "#e07653" "#1e87a5" "#f2bc40" "#287c6f" 
+  
+  
+# Printing all shapes
+  
+  d <- data.frame(p=c(0:25))
+  ggplot() +
+    scale_y_continuous(name="") +
+    scale_x_continuous(name="") +
+    scale_shape_identity() +
+    geom_point(data = d, mapping=aes(x = p%%16, y = p%/%16, shape = p), size = 5, fill = "coral") +
+    geom_text(data = d, mapping=aes(x = p%%16, y = p%/%16+0.25, label = p), size = 3) +
+    theme_void()
+  
+  si_save("Graphics/ggplot2_shapes.svg")
   
