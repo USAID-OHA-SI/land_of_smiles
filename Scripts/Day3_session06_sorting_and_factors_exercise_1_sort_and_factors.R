@@ -37,7 +37,7 @@
   # Create a factor for the psnus, where the levels are mapped to cumulative results
   df_tst_fct <- 
       df_tst_psnu %>% 
-      mutate(psnu_cmltv = fct_reorder(  ,  )) %>% 
+      mutate(psnu_cmltv = fct_reorder(  ,  )) 
       
   # How would you investigate the new data frame df_tst_fct?
       
