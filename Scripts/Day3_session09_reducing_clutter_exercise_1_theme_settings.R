@@ -8,6 +8,7 @@
   library(gagglr)
   library(scales)
   library(glitr)
+  library(glamr)
   
   # Load data
   df_msd <- return_latest("Data", "PSNU_IM") %>%
@@ -32,23 +33,26 @@
 # EXERCISE ----------------------------------------------------------------
 
   # Instructions: Using the starter chunk below, make the following changes:
-  # Tip: Use the Theme System Cheatsheet to help you identify the element names
+  # TIP: Use the Theme System Cheatsheet to help you identify the element names
   
   p <- df_tst_psnu %>% 
     mutate(fy = fiscal_year %>% as.character()) %>% 
     ggplot(aes(y = cumulative, x = fy)) +
-    geom_col(width = 0.5) + labs(title = "TESTING RESULTS",
-                                 subtitle = "Cumulative results across psnus") +
+    geom_col(width = 0.5) + 
+    labs(title = "TESTING RESULTS",
+         subtitle = "Cumulative results across psnus") +
     facet_wrap(~psnu) 
-    
   
-  # Move the facet labels to be left aligned
+  # Visualize the plot
+  print(p)
+    
+  # Move (align) the facet labels to be left aligned
   ?theme()
   
   p + theme( = element_text(hjust = ))
   
   
-  # Remove the mingor grid lines completely
+  # Remove the minor grid lines completely
   p + theme(panel.grid.minor = element_blank())
   
   # Change the plot subtitle color to be "gray60"
@@ -60,9 +64,9 @@
   #Look at the differences between theme_bw() and si_style()
   
   bw <- theme_bw()$strip.text
-  si <- si_style()$strip.text
-  
   bw
+  
+  si <- si_style()$strip.text
   si
   
   # What does this return?
