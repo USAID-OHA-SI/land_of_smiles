@@ -38,17 +38,16 @@
   
   
   # Complete the code below.
-  # Create a new variable that takes the the following values
-  # for Oklahoma City, Hillsboro and Great Lakes --> lightblue
-  # for all other psnus "grey50"
+  # Create a new variable that takes the the following values:
+  ## for Oklahoma City, Hillsboro and Great Lakes --> lightblue
+  ## for all other psnus "grey50"
   # Use the new variable to apply a fill to the column graph
   df_tst_psnu %>% 
     mutate(psnu_fill = case_when(
       psnu %in% c("", "", "") ~ ,
       TRUE ~ ,
     )) %>% 
-    ggplot(aes(y = psnu, x = cumulative, 
-               fill = )) +
+    ggplot(aes(y = psnu, x = cumulative, fill = )) +
     geom_col() +
     scale_fill_
   
