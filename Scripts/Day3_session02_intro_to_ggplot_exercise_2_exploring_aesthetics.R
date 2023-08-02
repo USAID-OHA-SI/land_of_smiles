@@ -36,21 +36,21 @@
   # Starter columns
   # provide columns for the aesthetic mapping below
   df_tst_psnu %>%
-    ggplot(mapping = aes(x = fy, y = cumulative, fill = )) +
+    ggplot(mapping = aes(x = fy, y = cumulative, fill = "...")) +
     geom_col()
   
   
   # Starter points
   # provide columns for the aesthetic mapping below
   df_tst_psnu %>%
-    ggplot(aes(x = , y = , size = , color = , shape = )) +
+    ggplot(aes(x = , y = "...", size = "..." , color = "...", shape = "...")) +
     geom_point()
   
   
   # Starter lines
   # provide columns for the aesthetic mapping below
   df_tst_psnu %>%
-    ggplot(aes(x = , y = , size = , color = )) +
+    ggplot(aes(x = "...", y = "...", size = "...", color = "...")) +
     geom_line()
   
   

@@ -34,7 +34,7 @@
   
   # columns
   df_tst_psnu %>%
-    ggplot(aes(x = fy, y = cumulative, fill = )) +
+    ggplot(aes(x = fy, y = cumulative, fill = "...")) +
     geom_col()
   
   
@@ -42,14 +42,14 @@
   # points (scatterplot)
   #
   df_tst_psnu %>%
-    ggplot(aes(x = fy, y = cumulative, color = )) +
+    ggplot(aes(x = fy, y = cumulative, color = "...")) +
     geom_point()
   
   
   
   # points (scatterplot)
   df_tst_psnu %>%
-    ggplot(aes(x = fy, y = cumulative, group = psnu, size = )) +
+    ggplot(aes(x = fy, y = cumulative, group = psnu, size = "...")) +
     geom_line()
   
   
@@ -57,7 +57,7 @@
   # Area (scatterplot)
   df_tst_psnu %>%
     ggplot(aes(x = fy, y = cumulative, 
-               group = psnu, fill = )) +
+               group = psnu, fill = "...")) +
     geom_area() +
   facet_wrap(~psnu)
   

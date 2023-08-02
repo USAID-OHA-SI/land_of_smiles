@@ -37,7 +37,7 @@
   # Create a factor for the psnus, where the levels are mapped to cumulative results
   df_tst_fct <- 
       df_tst_psnu %>% 
-      mutate(psnu_cmltv = fct_reorder(  ,  )) 
+      mutate(psnu_cmltv = fct_reorder("..."  ,"..."  )) 
       
   # How would you investigate the new data frame df_tst_fct?
       
@@ -47,8 +47,8 @@
   # and create a column plot with the psnus plotted in order
     
     df_tst_psnu %>% 
-      mutate(psnu_cmltv = fct_reorder(, )) %>% 
-      ggplot(aes(y = , x = )) +
+      mutate(psnu_cmltv = fct_reorder("...", "...")) %>% 
+      ggplot(aes(y = "...", x = "...")) +
       geom_col()
     
     
@@ -56,8 +56,8 @@
   # and create a column plot with the psnus plotted in order
     
     df_tst_psnu %>% 
-      mutate(  = fct_reorder( , )) %>% 
-      ggplot(aes(y = , x = )) +
+      mutate("..."  = fct_reorder("..." , "...")) %>% 
+      ggplot(aes(y = "...", x = "...")) +
       geom_col()
     
     
@@ -66,11 +66,11 @@
   # when using small multiples
     
     df_tst_psnu %>% 
-      mutate(  = fct_reorder(, , .desc = TRUE)) %>% 
+      mutate("..."  = fct_reorder("...", "...", .desc = TRUE)) %>% 
       ggplot() +
       geom_col(aes(x = targets, y = indicator), width = 0.5, fill = grey10k) +
       geom_col(aes(x = cumulative, y = indicator), width = 0.5, fill = scooter) +
-      facet_wrap(~ , nrow = 5) +
+      facet_wrap(~ "...", nrow = 5) +
       theme_minimal()
     
     

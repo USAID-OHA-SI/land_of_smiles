@@ -41,7 +41,7 @@
                y = cumulative)) +
     geom_col() + 
     facet_wrap(~psnu) +
-    theme_
+    theme_"..."
   
   
   # Theme bw
@@ -50,7 +50,7 @@
                y = cumulative)) +
     geom_col() + 
     facet_wrap(~psnu) +
-    theme_
+    theme_"..."
   
   
   # Theme SI style
@@ -59,7 +59,7 @@
                y = cumulative)) +
     geom_col() + 
     facet_wrap(~psnu) +
-    si_style
+    si_style()
   
   
   # Theme SI ygrid
@@ -68,7 +68,7 @@
                y = cumulative)) +
     geom_col() + 
     facet_wrap(~psnu) +
-    si_style_
+    si_style_"..."
   
   
   # Theme SI xgrid
@@ -77,7 +77,7 @@
                y = cumulative)) +
     geom_col() + 
     facet_wrap(~psnu) +
-    si_style_
+    si_style_"..."
   
   # What does the help for theme() return?
   

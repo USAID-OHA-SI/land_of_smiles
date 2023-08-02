@@ -43,21 +43,27 @@
   p
   
   # Base plot -- add a subtitle
-  p + 
+  p + "..."
   
   
   
   # Modify the x and y axes
-  p +
+  p + "..."
   
   
   # Add a caption
-  p  
+  p + "..."
 
   
   # Using the df_tst_psnu data frame, create a new plot
   # Add in a meaningful title, caption, subtitle and axis labels
   # Make sure any continuous variable axis texts use commas
   df_tst_psnu %>% 
-    mutate(psnu_order = fct_reorder(psnu, cumulative)) %>% 
+    mutate(psnu_order = fct_reorder(psnu, cumulative)) %>%
+    ggplot(aes(x = "...", y = ""..."")) +
+    geom_"..." +
+    labs("..." = "...", 
+         "..." = "...", 
+         "..." = "...", 
+         "..." = "...")
   

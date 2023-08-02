@@ -33,7 +33,7 @@
   
   df_tst_psnu %>% 
     ggplot(aes(y = psnu, x = cumulative, 
-               fill = )) +
+               fill = "...")) +
     geom_col()
   
   
@@ -44,11 +44,11 @@
   # Use the new variable to apply a fill to the column graph
   df_tst_psnu %>% 
     mutate(psnu_fill = case_when(
-      psnu %in% c("", "", "") ~ ,
-      TRUE ~ ,
+      psnu %in% c(""..."", ""..."", ""..."") ~ ,
+      TRUE ~ "...",
     )) %>% 
     ggplot(aes(y = psnu, x = cumulative, 
-               fill = )) +
+               fill = "...")) +
     geom_col() +
     scale_fill_
   
@@ -60,22 +60,22 @@
   # color or fill
   df_tst_psnu %>% 
     ggplot(aes(y = targets, x = cumulative)) +
-    geom_point(aes( = psnu), shape = 15, size = 5)
+    geom_point(aes("..." = psnu), shape = 15, size = 5)
   
   # color or fill
   df_tst_psnu %>% 
     ggplot(aes(y = targets, x = cumulative)) +
-    geom_point(aes( = psnu), shape = 8, size = 5)
+    geom_point(aes("..." = psnu), shape = 8, size = 5)
   
   # color or fill
   df_tst_psnu %>% 
     ggplot(aes(y = targets, x = cumulative)) +
-    geom_point(aes( = psnu), shape = 21, size = 5)
+    geom_point(aes("..." = psnu), shape = 21, size = 5)
   
   # color or fill
   df_tst_psnu %>% 
     ggplot(aes(y = targets, x = cumulative)) +
-    geom_point(aes( = psnu), shape = 25, size = 7,   = "black", stroke = 1)
+    geom_point(aes("..." = psnu), shape = 25, size = 7,   "..." = "black", stroke = 1)
   
   # Experiment with your own plots, using color to fill in bars, areas or points
   

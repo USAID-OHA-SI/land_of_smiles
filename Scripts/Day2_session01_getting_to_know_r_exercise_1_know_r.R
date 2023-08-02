@@ -13,10 +13,10 @@
   # Practice creating strings and numbers in objects
 
   # type your name, to assign a value to `your_name` variable
-  your_name <- c("")
+  your_name <- c("...")
   
   # set your number
-  your_number <- 
+  your_number <- "..."
     
   # Print your name and number to the console
   print()  
@@ -28,7 +28,7 @@
   # column X should take values: "E", "F", "G"
   # and column y should values: 3, 2, 1
   
-  df <- data.frame(x = c(), y = c())
+  df <- data.frame(x = c("..."), y = c("..."))
   
   # Practice accessing columns in the data frame
   df$x
@@ -39,10 +39,10 @@
   # Create a greeting function
   # follow the instructions from the slide
   greeting <- function(){
-    paste()
+    paste("...")
   }
   
   # Test it
-  greeting("")
+  greeting("...")
   
     

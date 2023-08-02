@@ -19,23 +19,23 @@
   # For the examples below, insert the correct dataframe in the function  
   
   # head() -Returns the first or last parts of a vector, matrix, table, data frame or function.
-  head()
-  tail()
+  head("...")
+  tail("...")
   
   
   # names() - Functions to get or set the names of an object.
-  names()
+  names("...")
   
   
   # View() - Invoke a spreadsheet-style data viewer on a matrix-like R object.
-  view()
+  view("...")
   
     
   # str() - Compactly display the internal structure of an R object
-  str()
+  str("...")
   
   # glimpse() - glimpse() is like a transposed version of print(): columns run down the page, and data runs across. 
-  glimpse()
+  glimpse("...")
   
   
   # Summary - What does this do? How to use it?
@@ -45,13 +45,13 @@
 
   # Check for unique observations using distinct, unique or count
   # country, snu1, indicator
-  unique()
+  unique("...")
   
   df_msd %>% 
-    distinct()
+    distinct("...")
   
   df_msd %>% 
-    count() %>% 
+    count("...") %>% 
     prinf(n = Inf)
   
   #How many unique snu1s are there?

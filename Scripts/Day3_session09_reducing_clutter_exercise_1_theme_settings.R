@@ -46,16 +46,17 @@
     
   # Move (align) the facet labels to be left aligned
   ?theme()
+  ?hjust()
   
-  p + theme( = element_text(hjust = ))
+  p + theme("..." = element_text(hjust = ))
   
   
   # Remove the minor grid lines completely
-  p + theme(panel.grid.minor = element_blank())
+  p + theme(panel.grid.minor = "...")
   
   # Change the plot subtitle color to be "gray60"
   # use 
-  p + theme()
+  p + theme("..." = "...")
   
   
   

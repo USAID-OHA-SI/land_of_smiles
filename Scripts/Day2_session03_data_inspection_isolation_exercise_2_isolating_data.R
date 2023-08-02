@@ -18,8 +18,8 @@
   
   # Rename the "source_name" column to "sourcename"
   df_msd %>% 
-    rename( = ) %>% 
-    names()
+    rename("..." = "..." ) %>% 
+    names("...")
   
 
 # FILTERING ---------------------------------------------------------------
@@ -29,14 +29,14 @@
   # Filter the indicator column to only "HTS_TST
   
   df_msd %>% 
-    filter(indicator == ) %>% 
-    count()
+    filter(indicator == "...") %>% 
+    count("...")
   
   # Try the same filter, but now filter the fiscal_year to 2060
   df_msd %>% 
-    filter(indicator == ,
-            == ) %>% 
-    count()
+    filter(indicator == "...",
+           "..." == "...") %>% 
+    count("...")
   
 
 # ARRANGING ---------------------------------------------------------------
@@ -44,13 +44,13 @@
   # Count the number of indicators in the dataset and arrange the 
   # frequency in descending order  
   df_msd %>% 
-    count() %>% 
-    arrange()
+    count("...") %>% 
+    arrange("...")
   
   # Try arranging the results in ascending order
   df_msd %>% 
-    count() %>% 
-    arrange()
+    count("...") %>% 
+    arrange("...")
   
 
 # SELECTING ---------------------------------------------------------------
@@ -59,7 +59,7 @@
   # variables mech_code and mech_name
   df_msd_mech <- 
     df_msd %>% 
-    select()
+    select("...")
   
   # Check the names of the columns in the df_msd_mech data frame
 
