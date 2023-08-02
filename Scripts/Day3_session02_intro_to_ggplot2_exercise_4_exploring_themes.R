@@ -3,14 +3,9 @@
 
 # SETUP -------------------------------------------------------------------
 
-  # install glitr if it doesn't exist
-  # install.packages("remotes")
-  # remotes::install_github("USAID-OHA-SI/glitr", build_vignettes = TRUE)
-
   # Library
   library(tidyverse)
   library(gagglr)
-  library(glitr)
   
   # Load data
   df_msd <- return_latest("Data", "PSNU_IM") %>%
@@ -23,6 +18,7 @@
       cumulative = sum(cumulative, na.rm = T),
       .by = c("fiscal_year", "indicator", "psnu")
     ) %>%
+    mutate(fy = as.character(fiscal_year)) %>% 
     arrange(psnu) %>%
     slice(1:9)
   
