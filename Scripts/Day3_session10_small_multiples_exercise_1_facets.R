@@ -20,15 +20,14 @@
   # 2) summarize targets and cumulative results by fiscal year, snu1, psnu, and indicator
   # 3) Create a new variable (fy) that transform fiscal year variable as character type
   df_tst_psnu <- df_msd %>%
-    filter(indicator == "HTS_TST_POS",
-           fiscal_year == 2060) %>%
+    filter(indicator == "HTS_TST_POS") %>%
     group_by(fiscal_year, snu1, psnu, indicator) %>% 
     summarize(across(c(targets, cumulative), 
                      \(x) sum(x, na.rm = TRUE)),
               .groups = "drop") %>%
     mutate(fy = as.character(fiscal_year)) %>% 
     arrange(psnu) %>%
-    slice(1:10)
+    slice(1:15)
   
   # Take a look at the structure of the result
   glimpse(df_tst_psnu)
