@@ -7,6 +7,7 @@
   library(tidyverse)
   library(gagglr)
   library(scales)
+  library(glamr)
   
   # Load data
   df_msd <- return_latest("Data", "PSNU_IM") %>%
@@ -39,11 +40,11 @@
     ggplot(aes(y = psnu_order, x = cumulative)) +
     geom_col()
    
-  # Print the baseplot to the screen 
+  # Print the base plot to the screen 
   p
   
   # Base plot -- add a subtitle
-  p +
+  p + 
   
   
   
@@ -58,6 +59,6 @@
   # Using the df_tst_psnu data frame, create a new plot
   # Add in a meaningful title, caption, subtitle and axis labels
   # Make sure any continuous variable axis texts use commas
-    df_tst_psnu %>% 
+  df_tst_psnu %>% 
     mutate(psnu_order = fct_reorder(psnu, cumulative)) %>% 
   
