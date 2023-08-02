@@ -20,24 +20,21 @@
     ) 
   
   # To view data
-  View(df_tst)
   names(df_tst)
+  View(df_tst)
 
 
 # EXPERIMENT --------------------------------------------------------------
 
-  # Instructions: Try using the following geoms in a plot:
+  # Instructions: Try using the following geoms in a plot: geom_line(), geom_point(), geom_area()
   # Using the starter code below, add in different geoms and explore
   # different types of aesthetic mappings
-  # geom_line()
-  # geom_point()
-  # geom_area()
   
   # Starter code
     ggplot(
       data = df_tst,
       mapping = aes(x = fiscal_year, y = cumulative)
-    )
+    ) 
   
   
   # geom_line()

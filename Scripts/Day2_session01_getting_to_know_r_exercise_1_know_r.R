@@ -3,10 +3,7 @@
 # SETUP -------------------------------------------------------------------
 
   # Practice loading libraries
-  # Load the following libraries
-  # tidyverse
-  # gagglr
-  # scales
+  # Load the following libraries: tidyverse, gagglr, scales
 
   library()
   
@@ -14,19 +11,22 @@
 # STRINGS & NUMERICS ------------------------------------------------------
 
   # Practice creating strings and numbers in objects
+
+  # type your name, to assign a value to `your_name` variable
   your_name <- c("")
   
+  # set your number
   your_number <- 
     
   # Print your name and number to the console
-    print()  
+  print()  
   
 
 # DATAFRAMES --------------------------------------------------------------
 
   # Create a new data frame
-  # column X should take the values "E", "F", "G"
-  # and column y should take values 3, 2, 1
+  # column X should take values: "E", "F", "G"
+  # and column y should values: 3, 2, 1
   
   df <- data.frame(x = c(), y = c())
   
@@ -34,7 +34,7 @@
   df$x
   
   
-# CREATE A FUNCTION -------------------------------------------------------
+# FUNCTIONS -------------------------------------------------------
 
   # Create a greeting function
   # follow the instructions from the slide
@@ -43,6 +43,6 @@
   }
   
   # Test it
-  greeting(“”)
+  greeting("")
   
     
