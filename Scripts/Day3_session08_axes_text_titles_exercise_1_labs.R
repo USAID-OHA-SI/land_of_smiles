@@ -7,7 +7,6 @@
   library(tidyverse)
   library(gagglr)
   library(scales)
-  library(glamr)
   
   # Load data
   df_msd <- return_latest("Data", "PSNU_IM") %>%

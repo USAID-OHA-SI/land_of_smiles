@@ -7,8 +7,6 @@
   library(tidyverse)
   library(gagglr)
   library(scales)
-  library(glitr)
-  library(glamr)
 
   # Data - Make sure to downlaod `MER_Structured_TRAINING_Datasets_PSNU_IM_FY58-60_20230616_v2_1.zip` file and move it to `Data` folder
   
