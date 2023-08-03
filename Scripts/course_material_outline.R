@@ -269,7 +269,8 @@ folder_setup()
            modality %in% c("Index", "IndexMod"),
            fiscal_year == 2060) %>%
     group_by(fiscal_year, psnu) %>% 
-    summarize(across(c(targets, cumulative), \(x) sum(x, na.rm = TRUE)),
+    summarize(across(c(targets, cumulative), 
+                     \(x) sum(x, na.rm = TRUE)),
               .groups = "drop") %>% 
     arrange(desc(targets))
   
@@ -292,15 +293,15 @@ folder_setup()
     mutate(achievement = cumulative / targets,
            psnu = toupper(psnu))
   
-  df_index_psnu %>% 
-    mutate(achievement = cumulative / targets,
-           psnu = toupper(psnu),
-           achievement = na_if(achievement, Inf))
+  # df_index_psnu %>% 
+  #   mutate(achievement = cumulative / targets,
+  #          psnu = toupper(psnu),
+  #          achievement = na_if(achievement, Inf))
   
   df_index_psnu %>% 
     mutate(achievement = cumulative / targets,
            psnu = toupper(psnu),
-           low_achv = achievement < (2/4) - .1)
+           low_achv = achievement < .4)
   
   str(metadata)
   
@@ -327,6 +328,13 @@ folder_setup()
                                   is.infinite(achievement) ~ NA_character_,
                                   TRUE ~ "#909090"))
   
+  
+  
+  df_index_psnu %>% 
+    mutate(achievement = cumulative / targets,
+           psnu = toupper(psnu),
+           contains_q = ifelse(str_detect(psnu, "Q"), cumulative, NA))
+  
   df_index_psnu_trend <- df_msd %>% 
     filter(indicator == "HTS_TST_POS",
            modality %in% c("Index", "IndexMod")) %>%
@@ -335,23 +343,26 @@ folder_setup()
               .groups = "drop") %>% 
     arrange(desc(targets))
   
+  df_index_psnu_trend
+  
   ?lag
   df_index_psnu_trend %>% 
     mutate(achievement = cumulative / targets,
-           low_achv = achievement < (metadata$curr_qtr/4) - .1,
-           achv_color = case_when(low_achv == TRUE ~ "purple",
-                                  is.infinite(achievement) ~ NA_character_,
-                                  TRUE ~ "#909090"),
-           targets_prior = lag(targets))
+           targets_prior = lag(targets),
+           max_targets = max(targets)) %>% 
+    arrange(psnu, fiscal_year)
   
   df_index_psnu_trend %>% 
     mutate(achievement = cumulative / targets,
-           low_achv = achievement < (metadata$curr_qtr/4) - .1,
-           achv_color = case_when(low_achv == TRUE ~ "purple",
-                                  is.infinite(achievement) ~ NA_character_,
-                                  TRUE ~ "#909090")) %>% 
+           targets_prior = lag(targets),
+           max_targets = max(targets))
+  
+  df_index_psnu_trend %>% 
+    mutate(achievement = cumulative / targets) %>% 
     group_by(psnu) %>% 
-    mutate(targets_prior = lag(targets, order_by = fiscal_year)) %>% 
+    mutate(targets_prior = lag(targets, order_by = fiscal_year),
+           max_targets = max(targets)) %>% 
+    ungroup() %>% 
     arrange(psnu, fiscal_year)
   
   
