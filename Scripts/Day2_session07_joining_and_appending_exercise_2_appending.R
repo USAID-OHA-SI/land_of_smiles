@@ -1,4 +1,4 @@
-# Exercise: Day2_session05_joining_and_appending_exercise_2_appending
+# Exercise: Day2_session07_joining_and_appending_exercise_2_appending
 
 
 # SETUP -------------------------------------------------------------------
