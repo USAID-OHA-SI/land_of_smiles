@@ -86,7 +86,7 @@ GIS/*
 Images/*
 Graphics/*
 Data/*
-Dataout/*
+#Dataout/*
 #no data
 *.csv
 *.gz
