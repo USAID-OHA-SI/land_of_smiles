@@ -57,7 +57,7 @@ rsconnect/
 *.gz
 *.txt
 *.rds
-*.xlsx
+#*.xlsx
 *.xls
 *.zip
 *.png
