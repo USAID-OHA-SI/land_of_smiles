@@ -17,6 +17,7 @@
   library(patchwork)
   library(ggtext)
   library(openxlsx)
+  library(googledrive)
   
 
 # GLOBAL VARIABLES --------------------------------------------------------
@@ -49,6 +50,9 @@
 
   write.xlsx(df_ex, "Dataout/exercise_untidy.xlsx", overwrite = TRUE)
 
+  # drive_upload("Dataout/exercise_untidy.xlsx",
+  #              path = as_id("1Dmo7NqtBCbexsaq6XpkN1MZlTn-s2Jkz"),
+  #              type = "spreadsheet")
   
 # VIZ MUNGING -------------------------------------------------------------
 
