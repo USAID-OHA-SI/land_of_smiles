@@ -11,7 +11,7 @@
   df_msd <- return_latest("Data", "PSNU_IM") %>%
     read_psd()
   
-  # Filter dataset to just HTS data
+  # Filter dataset to just HTS Index data
   df_index <- df_msd %>% 
     filter(indicator == "HTS_TST",
            standardizeddisaggregate == "Modality/Age/Sex/Result",
