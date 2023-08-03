@@ -1,4 +1,4 @@
-# Exercise: Day2_session04_summarizing_exercise_5_summarize.R
+# Exercise: Day2_session04_summarizing_exercise_6_summarize_qtr.R
 
 
 # SETUP -------------------------------------------------------------------
@@ -19,12 +19,12 @@
 
 # EXERCISE ----------------------------------------------------------------
 
-  # Determine which partners conducted the most index tests in 2059
-  # use filter(), summarize(), and arrange()
+  # What do each quarters’ index testing results look like in Eugene in FY59?
+  # Use filter() and summarize() with across()
   
   df_index %>% 
-    filter("..." == "...") %>% 
-    group_by(fiscal_year, "...") %>% 
-    summarise(cumulative = sum("...", na.rm = TRUE)) %>% 
-    ungroup() %>% 
-    arrange("...")
+    filter("...") %>% 
+    group_by("...") %>% 
+    summarize(across(c("..."), 
+                     \(x) sum(x, na.rm = TRUE)),
+              .groups = "drop")
