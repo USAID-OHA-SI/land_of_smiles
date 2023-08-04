@@ -40,8 +40,9 @@ subnat_path <- list.files("Data", pattern = "NAT_SUBNAT", full.names = T)
 subnat_path
 
 # Exercise
+library(gophr)
 msd_path <- list.files("Data", pattern = "PSNU", full.names = T)
-
+msd_path
 read_psd(msd_path)
 
 df_msd <- read_psd(msd_path)
