@@ -44,7 +44,7 @@
   # Use the new variable to apply a fill to the column graph
   df_tst_psnu %>% 
     mutate(psnu_fill = case_when(
-      psnu %in% c(""..."", ""..."", ""..."") ~ ,
+      psnu %in% c("...", "...", "...") ~ ,
       TRUE ~ "...",
     )) %>% 
     ggplot(aes(y = psnu, x = cumulative, 
