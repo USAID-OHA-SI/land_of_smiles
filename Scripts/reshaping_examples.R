@@ -21,14 +21,14 @@
 
 # IMPORT ------------------------------------------------------------------
   
-  df <- return_latest("Data", "PSNU_IM") %>% 
+  df_msd <- return_latest("Data", "PSNU_IM") %>% 
     read_psd()   
   
 
 # MUNGE -------------------------------------------------------------------
 
   
-  df_semi <- df %>% 
+  df_semi <- df_msd %>% 
     filter(indicator %in% c("HTS_TST", "HTS_TST_POS"),
            standardizeddisaggregate == "Modality/Age/Sex/Result",
            modality == "Index",
