@@ -424,6 +424,7 @@ df_mechs <-
 
 # 08-Reshaping ------------------------------------------------------------
 
+  #create a limited dataset
   df_semi <- df_msd %>% 
     filter(indicator %in% c("HTS_TST", "HTS_TST_POS"),
            standardizeddisaggregate == "Modality/Age/Sex/Result",
@@ -437,29 +438,19 @@ df_mechs <-
   ?pivot_longer
   ?pivot_wider
   
-  
+  #reshape long
   (df_long <- df_semi %>% 
     pivot_longer(starts_with("qtr"),
                  names_to = "quarter",
                  names_prefix = "qtr",
                  values_to = "value"))
   
-  
+  #unite, clean, and reshape wide to calc positivity
   df_long %>% 
-    unite(period, c(fiscal_year, qtr), sep = "Q") %>% 
-    mutate(period = str_replace(period, "20", "FY")) %>% 
+    unite(period, c(fiscal_year, qtr), sep = "Q") %>%
+    mutate(period = str_replace(period, "20", "FY")) %>%
     pivot_wider(names_from = indicator, 
                 values_from = value) %>% 
     mutate(positivity = HTS_TST_POS/HTS_TST)
   
-  df_semi
-  
-  
-  df_subnat <- read_psd("data/MER_Structured_TRAINING_Datasets_NAT_SUBNAT_FY58-60_20230616_v2_1.zip")
-  
-  
-  df_subnat %>% 
-    filter(standardizeddisaggregate %in% c("Age/Sex", "Age/Sex/HIVStatus")) %>% 
-    count(fiscal_year, psnu, indicator, wt = targets)
-
   

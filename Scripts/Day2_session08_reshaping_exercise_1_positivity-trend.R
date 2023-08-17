@@ -1,4 +1,4 @@
-# Exercise: Day2_session08_reshaping_exercise_1_wide.R
+# Day2_session08_reshaping_exercise_1_positivity-trend.R
 
 # SETUP -------------------------------------------------------------------
 
@@ -25,6 +25,7 @@
 
 # EXERCISE ----------------------------------------------------------------
 
+  # Calculate the positivity trend in Eugene. 
   # Reshape the dataset long so you get each quarter as its own row as we've 
   # done in the slides.
     
@@ -34,7 +35,7 @@
      pivot_longer(starts_with("qtr"),
                   "...")
   
-  # Reshape wide so you can calculate positivity
+  # Reshape wide so you have your indicators as columns
   
   ?pivot_wider
   
@@ -42,7 +43,10 @@
     pivot_wider(names_from = "...", 
                 values_from = "...")
   
-  #Combine year and quarter into one column called period and clean up
+  #Combine year and quarter into one column called period and clean up period
+  
+  ?unite 
+  
   df_long_clean <- df_long2 %>% 
     unite("...", c("..."), sep = "Q") %>%
     mutate(period = str_replace(period, "20", "FY"))
