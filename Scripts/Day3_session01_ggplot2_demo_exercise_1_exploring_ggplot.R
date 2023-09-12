@@ -16,7 +16,7 @@
     filter(indicator == "HTS_TST_POS") %>%
     summarize(
       cumulative = sum(cumulative, na.rm = T),
-      .by = c("fiscal_year", "indicator")
+      .by = c("fiscal_year", "indicator", "psnu")
     ) 
   
   # To view data
