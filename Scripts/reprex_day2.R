@@ -557,6 +557,58 @@ si_save("Images/ggplot_sort_default_order", height = h, width = w)
   
  
 
+# SF ----------------------------------------------------------------------
+
+  # Call in the sf package via library function
+  library(sf)
+  
+  # Load the snu1 shapefile from the GIS folder
+  snu1_df <- st_read("GIS/MNA_snu1.shp")
+  
+  # Plot the SNU1 boundaries on a simple map
+  snu1_df %>% 
+    ggplot() +
+    geom_sf(aes(geometry = geometry, fill = snu1), color = grey90k) +
+    labs(title = "SNU1 MAP CREATED BY SF") +
+    si_style_map() +
+    theme(legend.text = element_text(size = 7))
+  
+  si_save("Images/sf_snu1_map.png", height = h, width = w)
+  
+  
+  # Join in the relevant data
+  df_tst_snu1 <- df_msd %>%
+    filter(indicator == "HTS_TST_POS", fiscal_year == 2060) %>%
+    group_by(fiscal_year, snu1, snu1uid, indicator) %>% 
+    summarize(across(c(targets, cumulative), 
+                     \(x) sum(x, na.rm = TRUE)),
+              .groups = "drop") %>%
+    mutate(fy = as.character(fiscal_year)) 
+  
+  snu1_tst_df <- 
+    snu1_df %>% 
+    left_join(., df_tst_snu1)
+  
+  snu1_tst_df %>% 
+    ggplot() +
+    geom_sf(aes(fill = cumulative), 
+            color = "white", size = 1) +
+    geom_sf_label(aes(label = snu1), 
+            size = 8/.pt) +
+    scale_fill_viridis_c(direction = -1) +
+    si_style_map() +
+    si_legend_fill() +
+    labs(x = NULL, y = NULL,
+         title = "NORTHWEST WITH LARGEST TESTING RESULTS")
+  si_save("Images/sf_snu1_map_testing.png", height = h, width = w, 
+          scale = 1.4)
+  
+
+# GT ----------------------------------------------------------------------
+
+
+  
+
 # GLITR DEMO --------------------------------------------------------------
 
   #install

@@ -105,7 +105,7 @@
   ggplot() +
       geom_sf(data = minoria_psnu, aes(geometry = geometry, fill = snu1), color = "white", linewidth = 0.25, alpha = 0.5) +
       geom_sf(data = minoria_ou, aes(geometry = geometry), fill = NA, color = "white", linewidth = 1) +
-      geom_sf_text(data = minoria_psnu, aes(geometry = geometry, label = psnu), size = 6/.pt) +
+      geom_sf_text(data = minoria_psnu, aes(geometry = geometry, label = psnu), size = 7/.pt) +
       scale_fill_si(palette = "siei", discrete = TRUE) +
       scale_color_si(palette = "siei", discrete = TRUE) +
       si_style_map() +
