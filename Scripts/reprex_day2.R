@@ -603,11 +603,75 @@ si_save("Images/ggplot_sort_default_order", height = h, width = w)
   si_save("Images/sf_snu1_map_testing.png", height = h, width = w, 
           scale = 1.4)
   
-
+  # Combine polygons into one
+  snu1_tst_df %>% 
+    group_by(country) %>% 
+    summarise(geometry = st_union(geometry),
+              cumulative = sum(cumulative, na.rm = T),
+              .groups = "drop") %>% 
+    ggplot() +
+    geom_sf(aes(fill = cumulative)) +
+    si_style_map() +
+    labs(x = NULL, y = NULL,
+         title = "MINORIA CUMULATIVE TESTING RESULTS 2060")
+  si_save("Images/sf_OU_map_testing.png", height = h, width = w, 
+          scale = 1.4)
 # GT ----------------------------------------------------------------------
 
-
+  remotes::install_github("rstudio/gt")
+  remotes::install_github("jthomasmock/gtExtras")
+  library(gt)
+  library(gtExtras)
   
+  df_tst_psnu <- df_msd %>%
+    filter(indicator == "HTS_TST_POS", fiscal_year == 2060) %>%
+    group_by(fiscal_year, psnu, snu1, indicator) %>% 
+    summarize(across(c(cumulative, targets), 
+                     \(x) sum(x, na.rm = TRUE)),
+              .groups = "drop") %>%
+    mutate(achievement = cumulative/targets)
+  
+  # Create simple output
+  df_tst_psnu %>% 
+    gt() %>% 
+  gtsave("Images/gt_simple_output.png")
+  
+  # Create simple output with tab_options
+  df_tst_psnu %>% 
+    gt() %>% 
+    tab_options(data_row.padding = px(1),
+                table.font.size = px(10L))  %>% 
+  gtsave("Images/gt_example.png")
+  
+  # Continue modifying gt object
+  df_tst_psnu %>% 
+    arrange(desc(achievement)) %>% 
+    gt(groupname_col = "snu1") %>% 
+    cols_hide(c(indicator, fiscal_year)) %>% 
+    gtExtras::gt_theme_nytimes() %>% 
+    tab_options(data_row.padding = px(1),
+                table.font.size = px(10),
+                row_group.padding = px(1),
+                row_group.font.weight = "bold") %>% 
+  gtsave("Images/gt_example_2.png")
+  
+  # Example 3
+   gt_obj <-  df_tst_psnu %>% 
+      arrange(desc(achievement)) %>% 
+      gt(groupname_col = "snu1") %>% str()
+      cols_hide(c(indicator, fiscal_year)) %>% 
+      gtExtras::gt_theme_nytimes() %>% 
+      tab_options(data_row.padding = px(1),
+                  table.font.size = px(10),
+                  row_group.padding = px(1),
+                  row_group.font.weight = "bold") %>% 
+      tab_header(title = "PSNU TESTING ACHIEVEMENT FY60") %>% 
+      fmt_number(columns = cumulative:targets,
+                 decimals = 0) %>% 
+      fmt_percent(columns = achievement, 
+                  decimals = 0) %>% 
+    gtsave("Images/gt_example_3.png")
+
 
 # GLITR DEMO --------------------------------------------------------------
 
